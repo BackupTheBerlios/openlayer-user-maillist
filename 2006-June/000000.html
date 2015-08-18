@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Openlayer-user] Loading OL bitmaps into an array
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/openlayer-user/2006-June/index.html" >
+   <LINK REL="made" HREF="mailto:openlayer-user%40lists.berlios.de?Subject=Re%3A%20%5BOpenlayer-user%5D%20Loading%20OL%20bitmaps%20into%20an%20array&In-Reply-To=%3Cc9004b820606181809rb9e489ax161db4a3628001cd%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000001.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Openlayer-user] Loading OL bitmaps into an array</H1>
+    <B>kotori83</B> 
+    <A HREF="mailto:openlayer-user%40lists.berlios.de?Subject=Re%3A%20%5BOpenlayer-user%5D%20Loading%20OL%20bitmaps%20into%20an%20array&In-Reply-To=%3Cc9004b820606181809rb9e489ax161db4a3628001cd%40mail.gmail.com%3E"
+       TITLE="[Openlayer-user] Loading OL bitmaps into an array">kotori83 at gmail.com
+       </A><BR>
+    <I>Mon Jun 19 03:09:39 CEST 2006</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000001.html">[Openlayer-user] Loading OL bitmaps into an array
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>i've got a quick question.  i want to load an image into an array, but i'm
+having a good deal of difficulty doing so with the OL bitmaps.  For some
+reason my normal Allegro methods work fine, but it just doesn't want to work
+with OL ones.
+I have the following setup:
+
+// Char.h
+struct Char
+{
+     int x;
+     int y;
+     Bitmap *char_img[12];
+};
+
+// Graphics.cpp
+#include &quot;Char.h&quot;
+...
+Char myHero;
+myHero.char_img[DIR_NORTH1] = myHero.char_img.Load(&quot;Gfx/hero_north1.png&quot;);
+myHero.char_img[DIR_NORTH2] = myHero.char_img.Load(&quot;Gfx/hero_north2.png&quot;);
+myHero.char_img[DIR_NORTH3] = myHero.char_img.Load(&quot;Gfx/hero_north3.png&quot;);
+
+When i attempt this, i get an obvious, Graphics.cpp expected
+primary-expression before '.' token.  I have currently resorted to creating
+a series of allegro bitmaps, and then converting them into OL ones, so i can
+use the OL ones in my program.  This is quite a hassle, and a waste of
+resources.  Anyone have any tips on howto properly load a OL bitmap into an
+array like this?
+Thanks.
+-- 
+~ Kotori
+01001011 01101111 01110100 01101111 01110010 01101001
+HTP
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/openlayer-user/attachments/20060619/93913a59/attachment.html">https://lists.berlios.de/pipermail/openlayer-user/attachments/20060619/93913a59/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000001.html">[Openlayer-user] Loading OL bitmaps into an array
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/openlayer-user">More information about the Openlayer-user
+mailing list</a><br>
+</body></html>

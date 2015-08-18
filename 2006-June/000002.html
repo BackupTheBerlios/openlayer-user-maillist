@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Openlayer-user] Loading OL bitmaps into an array
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/openlayer-user/2006-June/index.html" >
+   <LINK REL="made" HREF="mailto:openlayer-user%40lists.berlios.de?Subject=Re%3A%20%5BOpenlayer-user%5D%20Loading%20OL%20bitmaps%20into%20an%20array&In-Reply-To=%3C200606192327.30236.juvinious%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000001.html">
+   <LINK REL="Next"  HREF="000003.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Openlayer-user] Loading OL bitmaps into an array</H1>
+    <B>Miguel A. Gavidia</B> 
+    <A HREF="mailto:openlayer-user%40lists.berlios.de?Subject=Re%3A%20%5BOpenlayer-user%5D%20Loading%20OL%20bitmaps%20into%20an%20array&In-Reply-To=%3C200606192327.30236.juvinious%40gmail.com%3E"
+       TITLE="[Openlayer-user] Loading OL bitmaps into an array">juvinious at gmail.com
+       </A><BR>
+    <I>Mon Jun 19 17:27:29 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000001.html">[Openlayer-user] Loading OL bitmaps into an array
+</A></li>
+        <LI>Next message: <A HREF="000003.html">[Openlayer-user] Loading OL bitmaps into an array
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Please respond to the mailinglist and not my address next time.
+Your declarations should be done in your header, thus:
+&quot;using namespace ol&quot; should be in Char.h not Char.cpp.
+
+
+&#26376;&#26332;&#26085; 19 6&#26376; 2006 21:54&#12289;&#12354;&#12394;&#12383;&#12399;&#26360;&#12365;&#12414;&#12375;&#12383;:
+&gt;<i> worked like a charm, thanks for that one.  Just a curious question off of
+</I>&gt;<i> this one.  is there any particular reason i have to declare my char_img
+</I>&gt;<i> like this in Char.h:
+</I>&gt;<i> ol::Bitmap *char_img;
+</I>&gt;<i> instead of
+</I>&gt;<i> Bitmap *char_img;
+</I>&gt;<i>
+</I>&gt;<i> I did declare the ol namespace in Char.cpp.  I was just curious as to why i
+</I>&gt;<i> had to do it this way. thanks again.
+</I>&gt;<i>
+</I>&gt;<i> On 6/19/06, Miguel A. Gavidia &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/openlayer-user">juvinious at gmail.com</A>&gt; wrote:
+</I>&gt;<i> &gt; Try this:
+</I>&gt;<i> &gt; myHero.char_img[DIR_NORTH1]-&gt;Load(&quot;Gfx/hero_north1.png&quot;);
+</I>&gt;<i> &gt; myHero.char_img[DIR_NORTH2]-&gt;Load(&quot;Gfx/hero_north2.png&quot;);
+</I>&gt;<i> &gt; myHero.char_img[DIR_NORTH3]-&gt;Load(&quot;Gfx/hero_north3.png&quot;);
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; The load function returns a bool whether successfull or not, it doesn't
+</I>&gt;<i> &gt; return
+</I>&gt;<i> &gt; a Bitmap plus they are pointers.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &#26376;&#26332;&#26085; 19 6&#26376; 2006 09:09&#12289;kotori83 &#12373;&#12435;&#12399;&#26360;&#12365;&#12414;&#12375;&#12383;:
+</I>&gt;<i> &gt; &gt; i've got a quick question.  i want to load an image into an array, but
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; i'm
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; having a good deal of difficulty doing so with the OL bitmaps.  For
+</I>&gt;<i> &gt; &gt; some reason my normal Allegro methods work fine, but it just doesn't
+</I>&gt;<i> &gt; &gt; want to work with OL ones.
+</I>&gt;<i> &gt; &gt; I have the following setup:
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; // Char.h
+</I>&gt;<i> &gt; &gt; struct Char
+</I>&gt;<i> &gt; &gt; {
+</I>&gt;<i> &gt; &gt;      int x;
+</I>&gt;<i> &gt; &gt;      int y;
+</I>&gt;<i> &gt; &gt;      Bitmap *char_img[12];
+</I>&gt;<i> &gt; &gt; };
+</I>&gt;<i> &gt; &gt;
+</I>&gt;<i> &gt; &gt; // Graphics.cpp
+</I>&gt;<i> &gt; &gt; #include &quot;Char.h&quot;
+</I>&gt;<i> &gt; &gt; ...
+</I>&gt;<i> &gt; &gt; Char myHero;
+</I>&gt;<i> &gt; &gt; myHero.char_img[DIR_NORTH1] = myHero.char_img.Load
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; (&quot;Gfx/hero_north1.png&quot;);
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; myHero.char_img[DIR_NORTH2] = myHero.char_img.Load
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; (&quot;Gfx/hero_north2.png&quot;);
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; myHero.char_img[DIR_NORTH3] = myHero.char_img.Load
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; (&quot;Gfx/hero_north3.png&quot;);
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; When i attempt this, i get an obvious, Graphics.cpp expected
+</I>&gt;<i> &gt; &gt; primary-expression before '.' token.  I have currently resorted to
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; creating
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; a series of allegro bitmaps, and then converting them into OL ones, so
+</I>&gt;<i> &gt; &gt; i can use the OL ones in my program.  This is quite a hassle, and a
+</I>&gt;<i> &gt; &gt; waste
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; of
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; resources.  Anyone have any tips on howto properly load a OL bitmap
+</I>&gt;<i> &gt; &gt; into
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; an
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &gt; array like this?
+</I>&gt;<i> &gt; &gt; Thanks.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; -juvinious
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; &lt;a href=&quot;<A HREF="http://chasm.hopto.org">http://chasm.hopto.org</A>&quot;&gt;The Chasm&lt;/a&gt; - My Site.
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Openlayer-user mailing list
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/openlayer-user">Openlayer-user at lists.berlios.de</A>
+</I>&gt;<i> &gt; <A HREF="http://lists.berlios.de/mailman/listinfo/openlayer-user">http://lists.berlios.de/mailman/listinfo/openlayer-user</A>
+</I>
+-- 
+-juvinious
+
+<A HREF="http://chasm.hopto.org">http://chasm.hopto.org</A> - The Chasm - My Site
+<A HREF="http://openlayer.berlios.de">http://openlayer.berlios.de</A> - Openlayer
+-- 
+-juvinious
+
+<A HREF="http://chasm.hopto.org">http://chasm.hopto.org</A> - The Chasm - My Site
+<A HREF="http://openlayer.berlios.de">http://openlayer.berlios.de</A> - Openlayer
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000001.html">[Openlayer-user] Loading OL bitmaps into an array
+</A></li>
+	<LI>Next message: <A HREF="000003.html">[Openlayer-user] Loading OL bitmaps into an array
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/openlayer-user">More information about the Openlayer-user
+mailing list</a><br>
+</body></html>

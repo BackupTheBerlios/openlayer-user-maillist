@@ -1,0 +1,334 @@
+From kotori83 at gmail.com  Mon Jun 19 03:09:39 2006
+From: kotori83 at gmail.com (kotori83)
+Date: Mon, 19 Jun 2006 02:09:39 +0100
+Subject: [Openlayer-user] Loading OL bitmaps into an array
+Message-ID: <c9004b820606181809rb9e489ax161db4a3628001cd@mail.gmail.com>
+
+i've got a quick question.  i want to load an image into an array, but i'm
+having a good deal of difficulty doing so with the OL bitmaps.  For some
+reason my normal Allegro methods work fine, but it just doesn't want to work
+with OL ones.
+I have the following setup:
+
+// Char.h
+struct Char
+{
+     int x;
+     int y;
+     Bitmap *char_img[12];
+};
+
+// Graphics.cpp
+#include "Char.h"
+...
+Char myHero;
+myHero.char_img[DIR_NORTH1] = myHero.char_img.Load("Gfx/hero_north1.png");
+myHero.char_img[DIR_NORTH2] = myHero.char_img.Load("Gfx/hero_north2.png");
+myHero.char_img[DIR_NORTH3] = myHero.char_img.Load("Gfx/hero_north3.png");
+
+When i attempt this, i get an obvious, Graphics.cpp expected
+primary-expression before '.' token.  I have currently resorted to creating
+a series of allegro bitmaps, and then converting them into OL ones, so i can
+use the OL ones in my program.  This is quite a hassle, and a waste of
+resources.  Anyone have any tips on howto properly load a OL bitmap into an
+array like this?
+Thanks.
+-- 
+~ Kotori
+01001011 01101111 01110100 01101111 01110010 01101001
+HTP
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/openlayer-user/attachments/20060619/93913a59/attachment.html>
+
+From juvinious at gmail.com  Mon Jun 19 08:13:42 2006
+From: juvinious at gmail.com (Miguel A. Gavidia)
+Date: Mon, 19 Jun 2006 14:13:42 +0800
+Subject: [Openlayer-user] Loading OL bitmaps into an array
+In-Reply-To: <c9004b820606181809rb9e489ax161db4a3628001cd@mail.gmail.com>
+References: <c9004b820606181809rb9e489ax161db4a3628001cd@mail.gmail.com>
+Message-ID: <200606191413.42951.juvinious@gmail.com>
+
+Try this:
+myHero.char_img[DIR_NORTH1]->Load("Gfx/hero_north1.png");
+myHero.char_img[DIR_NORTH2]->Load("Gfx/hero_north2.png");
+myHero.char_img[DIR_NORTH3]->Load("Gfx/hero_north3.png");
+
+The load function returns a bool whether successfull or not, it doesn't return 
+a Bitmap plus they are pointers.
+
+??? 19 6? 2006 09:09?kotori83 ????????:
+> i've got a quick question.  i want to load an image into an array, but i'm
+> having a good deal of difficulty doing so with the OL bitmaps.  For some
+> reason my normal Allegro methods work fine, but it just doesn't want to
+> work with OL ones.
+> I have the following setup:
+>
+> // Char.h
+> struct Char
+> {
+>      int x;
+>      int y;
+>      Bitmap *char_img[12];
+> };
+>
+> // Graphics.cpp
+> #include "Char.h"
+> ...
+> Char myHero;
+> myHero.char_img[DIR_NORTH1] = myHero.char_img.Load("Gfx/hero_north1.png");
+> myHero.char_img[DIR_NORTH2] = myHero.char_img.Load("Gfx/hero_north2.png");
+> myHero.char_img[DIR_NORTH3] = myHero.char_img.Load("Gfx/hero_north3.png");
+>
+> When i attempt this, i get an obvious, Graphics.cpp expected
+> primary-expression before '.' token.  I have currently resorted to creating
+> a series of allegro bitmaps, and then converting them into OL ones, so i
+> can use the OL ones in my program.  This is quite a hassle, and a waste of
+> resources.  Anyone have any tips on howto properly load a OL bitmap into an
+> array like this?
+> Thanks.
+
+-- 
+-juvinious
+
+<a href="http://chasm.hopto.org">The Chasm</a> - My Site.
+
+
+From juvinious at gmail.com  Mon Jun 19 17:27:29 2006
+From: juvinious at gmail.com (Miguel A. Gavidia)
+Date: Mon, 19 Jun 2006 23:27:29 +0800
+Subject: [Openlayer-user] Loading OL bitmaps into an array
+Message-ID: <200606192327.30236.juvinious@gmail.com>
+
+Please respond to the mailinglist and not my address next time.
+Your declarations should be done in your header, thus:
+"using namespace ol" should be in Char.h not Char.cpp.
+
+
+??? 19 6? 2006 21:54??????????:
+> worked like a charm, thanks for that one.  Just a curious question off of
+> this one.  is there any particular reason i have to declare my char_img
+> like this in Char.h:
+> ol::Bitmap *char_img;
+> instead of
+> Bitmap *char_img;
+>
+> I did declare the ol namespace in Char.cpp.  I was just curious as to why i
+> had to do it this way. thanks again.
+>
+> On 6/19/06, Miguel A. Gavidia <juvinious at gmail.com> wrote:
+> > Try this:
+> > myHero.char_img[DIR_NORTH1]->Load("Gfx/hero_north1.png");
+> > myHero.char_img[DIR_NORTH2]->Load("Gfx/hero_north2.png");
+> > myHero.char_img[DIR_NORTH3]->Load("Gfx/hero_north3.png");
+> >
+> > The load function returns a bool whether successfull or not, it doesn't
+> > return
+> > a Bitmap plus they are pointers.
+> >
+> > ??? 19 6? 2006 09:09?kotori83 ????????:
+> > > i've got a quick question.  i want to load an image into an array, but
+> >
+> > i'm
+> >
+> > > having a good deal of difficulty doing so with the OL bitmaps.  For
+> > > some reason my normal Allegro methods work fine, but it just doesn't
+> > > want to work with OL ones.
+> > > I have the following setup:
+> > >
+> > > // Char.h
+> > > struct Char
+> > > {
+> > >      int x;
+> > >      int y;
+> > >      Bitmap *char_img[12];
+> > > };
+> > >
+> > > // Graphics.cpp
+> > > #include "Char.h"
+> > > ...
+> > > Char myHero;
+> > > myHero.char_img[DIR_NORTH1] = myHero.char_img.Load
+> >
+> > ("Gfx/hero_north1.png");
+> >
+> > > myHero.char_img[DIR_NORTH2] = myHero.char_img.Load
+> >
+> > ("Gfx/hero_north2.png");
+> >
+> > > myHero.char_img[DIR_NORTH3] = myHero.char_img.Load
+> >
+> > ("Gfx/hero_north3.png");
+> >
+> > > When i attempt this, i get an obvious, Graphics.cpp expected
+> > > primary-expression before '.' token.  I have currently resorted to
+> >
+> > creating
+> >
+> > > a series of allegro bitmaps, and then converting them into OL ones, so
+> > > i can use the OL ones in my program.  This is quite a hassle, and a
+> > > waste
+> >
+> > of
+> >
+> > > resources.  Anyone have any tips on howto properly load a OL bitmap
+> > > into
+> >
+> > an
+> >
+> > > array like this?
+> > > Thanks.
+> >
+> > --
+> > -juvinious
+> >
+> > <a href="http://chasm.hopto.org">The Chasm</a> - My Site.
+> > _______________________________________________
+> > Openlayer-user mailing list
+> > Openlayer-user at lists.berlios.de
+> > http://lists.berlios.de/mailman/listinfo/openlayer-user
+
+-- 
+-juvinious
+
+http://chasm.hopto.org - The Chasm - My Site
+http://openlayer.berlios.de - Openlayer
+-- 
+-juvinious
+
+http://chasm.hopto.org - The Chasm - My Site
+http://openlayer.berlios.de - Openlayer
+
+
+From kotori83 at gmail.com  Tue Jun 20 01:27:54 2006
+From: kotori83 at gmail.com (kotori83)
+Date: Tue, 20 Jun 2006 00:27:54 +0100
+Subject: [Openlayer-user] Loading OL bitmaps into an array
+In-Reply-To: <200606192327.30236.juvinious@gmail.com>
+References: <200606192327.30236.juvinious@gmail.com>
+Message-ID: <c9004b820606191627k1862b12amd1daf1a5dff3824c@mail.gmail.com>
+
+well no compiler errors, but i do get run-time access violations with that
+setup.
+
+On 6/19/06, Miguel A. Gavidia <juvinious at gmail.com> wrote:
+>
+> Please respond to the mailinglist and not my address next time.
+> Your declarations should be done in your header, thus:
+> "using namespace ol" should be in Char.h not Char.cpp.
+>
+>
+> ??? 19 6? 2006 21:54??????????:
+> > worked like a charm, thanks for that one.  Just a curious question off
+> of
+> > this one.  is there any particular reason i have to declare my char_img
+> > like this in Char.h:
+> > ol::Bitmap *char_img;
+> > instead of
+> > Bitmap *char_img;
+> >
+> > I did declare the ol namespace in Char.cpp.  I was just curious as to
+> why i
+> > had to do it this way. thanks again.
+> >
+> > On 6/19/06, Miguel A. Gavidia <juvinious at gmail.com> wrote:
+> > > Try this:
+> > > myHero.char_img[DIR_NORTH1]->Load("Gfx/hero_north1.png");
+> > > myHero.char_img[DIR_NORTH2]->Load("Gfx/hero_north2.png");
+> > > myHero.char_img[DIR_NORTH3]->Load("Gfx/hero_north3.png");
+> > >
+> > > The load function returns a bool whether successfull or not, it
+> doesn't
+> > > return
+> > > a Bitmap plus they are pointers.
+> > >
+> > > ??? 19 6? 2006 09:09?kotori83 ????????:
+> > > > i've got a quick question.  i want to load an image into an array,
+> but
+> > >
+> > > i'm
+> > >
+> > > > having a good deal of difficulty doing so with the OL bitmaps.  For
+> > > > some reason my normal Allegro methods work fine, but it just doesn't
+> > > > want to work with OL ones.
+> > > > I have the following setup:
+> > > >
+> > > > // Char.h
+> > > > struct Char
+> > > > {
+> > > >      int x;
+> > > >      int y;
+> > > >      Bitmap *char_img[12];
+> > > > };
+> > > >
+> > > > // Graphics.cpp
+> > > > #include "Char.h"
+> > > > ...
+> > > > Char myHero;
+> > > > myHero.char_img[DIR_NORTH1] = myHero.char_img.Load
+> > >
+> > > ("Gfx/hero_north1.png");
+> > >
+> > > > myHero.char_img[DIR_NORTH2] = myHero.char_img.Load
+> > >
+> > > ("Gfx/hero_north2.png");
+> > >
+> > > > myHero.char_img[DIR_NORTH3] = myHero.char_img.Load
+> > >
+> > > ("Gfx/hero_north3.png");
+> > >
+> > > > When i attempt this, i get an obvious, Graphics.cpp expected
+> > > > primary-expression before '.' token.  I have currently resorted to
+> > >
+> > > creating
+> > >
+> > > > a series of allegro bitmaps, and then converting them into OL ones,
+> so
+> > > > i can use the OL ones in my program.  This is quite a hassle, and a
+> > > > waste
+> > >
+> > > of
+> > >
+> > > > resources.  Anyone have any tips on howto properly load a OL bitmap
+> > > > into
+> > >
+> > > an
+> > >
+> > > > array like this?
+> > > > Thanks.
+> > >
+> > > --
+> > > -juvinious
+> > >
+> > > <a href="http://chasm.hopto.org">The Chasm</a> - My Site.
+> > > _______________________________________________
+> > > Openlayer-user mailing list
+> > > Openlayer-user at lists.berlios.de
+> > > http://lists.berlios.de/mailman/listinfo/openlayer-user
+>
+> --
+> -juvinious
+>
+> http://chasm.hopto.org - The Chasm - My Site
+> http://openlayer.berlios.de - Openlayer
+> --
+> -juvinious
+>
+> http://chasm.hopto.org - The Chasm - My Site
+> http://openlayer.berlios.de - Openlayer
+> _______________________________________________
+> Openlayer-user mailing list
+> Openlayer-user at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/openlayer-user
+>
+
+
+
+-- 
+~ Kotori
+01001011 01101111 01110100 01101111 01110010 01101001
+HTP
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/openlayer-user/attachments/20060620/25912b7a/attachment.html>
+
